@@ -140,10 +140,7 @@ const mentorapplication = {
                     data: results[0]
                 };
             } else {
-                return {
-                    status: 'not_found',
-                    data: null
-                };
+                return false;
             }
         } catch (err) {
             throw err;
