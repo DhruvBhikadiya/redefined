@@ -3,7 +3,7 @@ const Mentorapplications = require('../models/mentorapplicationModel');
 exports.createMentorapplication = async (req, res) => {
     try {
         
-        const member = await Users.findByEmail(req.body.email); 
+        const member = await Mentorapplications.findByEmail(req.body.email); 
         if (member) {
             return res.status(401).json({ error: 'Application Already Exist' });
         }
