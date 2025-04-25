@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 
 const fileuploadRoutes = require("./routes/fileuploadRoutes");
+const paymentRoutes = require('./routes/paymentRoutes');
 
 const usersRoutes = require('./routes/usersRoutes');
 const rolesRoutes = require('./routes/rolesRoutes');
@@ -16,6 +17,9 @@ const industryRoutes = require('./routes/industryRoutes');
 const areaRoutes = require('./routes/areaRoutes');
 const menteeRoutes = require('./routes/menteeRoutes');
 const mentorapplicationRoutes = require('./routes/mentorapplicationRoutes');
+const memberRoutes = require('./routes/memberRoutes');
+const perkRoutes = require('./routes/perkRoutes');
+const subscriptionRoutes = require('./routes/subscriptionRoutes');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -33,6 +37,7 @@ app.use(cors(corsOptions));
 app.use(bodyParser.json({ limit: '50mb' }));
 
 app.use("/api/file", fileuploadRoutes);
+app.use('/api/payment', paymentRoutes);
 
 app.use('/api/users', usersRoutes);
 app.use('/api/roles', rolesRoutes);
@@ -45,6 +50,9 @@ app.use('/api/industry', industryRoutes);
 app.use('/api/area', areaRoutes);
 app.use('/api/mentee', menteeRoutes);
 app.use('/api/mentorapplication', mentorapplicationRoutes);
+app.use('/api/member', memberRoutes);
+app.use('/api/perk', perkRoutes);
+app.use('/api/subscription', subscriptionRoutes);
 
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
