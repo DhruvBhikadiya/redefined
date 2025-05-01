@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 
 const fileuploadRoutes = require("./routes/fileuploadRoutes");
+
 const paymentRoutes = require('./routes/paymentRoutes');
 const subscriptionRoutes = require('./routes/subscriptionRoutes');
 
@@ -40,6 +41,7 @@ app.use(cors(corsOptions));
 app.use(bodyParser.json({ limit: '50mb' }));
 
 app.use("/api/file", fileuploadRoutes);
+
 app.use('/api/payment', paymentRoutes);
 app.use('/api/subscription', subscriptionRoutes);
 
