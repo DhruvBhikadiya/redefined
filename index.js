@@ -8,6 +8,10 @@ const fileuploadRoutes = require("./routes/fileuploadRoutes");
 const paymentRoutes = require('./routes/paymentRoutes');
 const subscriptionRoutes = require('./routes/subscriptionRoutes');
 
+const emailRoutes = require('./routes/emailRoutes');
+const emaillogRoutes = require('./routes/emaillogRoutes');
+const emailtemplateRoutes = require('./routes/emailtemplateRoutes');
+
 const usersRoutes = require('./routes/usersRoutes');
 const rolesRoutes = require('./routes/rolesRoutes');
 const permissionsRoutes = require('./routes/permissionsRoutes');
@@ -44,6 +48,10 @@ app.use("/api/file", fileuploadRoutes);
 
 app.use('/api/payment', paymentRoutes);
 app.use('/api/subscription', subscriptionRoutes);
+
+app.use('/api/email', emailRoutes);
+app.use('/api/emaillog', emaillogRoutes);
+app.use('/api/emailtemplate', emailtemplateRoutes);
 
 app.use('/api/users', usersRoutes);
 app.use('/api/roles', rolesRoutes);
