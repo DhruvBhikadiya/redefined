@@ -135,15 +135,9 @@ const mentorapplication = {
             const [results] = await db.execute(sql, [email]);
 
             if (results.length > 0) {
-                return {
-                    status: 'success',
-                    data: results[0]
-                };
+                return true;
             } else {
-                return {
-                    status: 'not_found',
-                    data: null
-                };
+                return false;
             }
         } catch (err) {
             throw err;
