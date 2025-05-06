@@ -1,4 +1,6 @@
 const db = require('../config/db');
+const { sendEmail } = require('../utils/sendEmail');
+const emaillog = require('./emaillogModel');
 
 const mentorapplication = {
     create: async (data) => {
@@ -10,6 +12,34 @@ const mentorapplication = {
                 status: 'success',
                 data: results
             }
+
+            const [templates] = await db.execute('SELECT * FROM emailtemplate');
+
+            let selectedTemplate = templates.find(f => f.name == "Mentor Apply");
+
+            let sendingContent = selectedTemplate.content.replaceAll('[name]',data.fullName);
+      
+            const emailData = {
+              to: data.email,
+              subject: selectedTemplate.subject,
+              html: sendingContent
+            };
+      
+            await sendEmail(emailData);
+      
+            let maillogReq = {
+              recipient : emailData.to,
+              message : emailData.html,
+              subject : emailData.subject
+            }
+      
+            emaillog.create(maillogReq, (err, result) => {
+              if (err) {
+                console.error(err);
+                return res.status(500).json({ message: 'Email sent but failed to log' });
+              }
+              res.status(200).json({ message: 'Email sent & logged successfully!' });
+            });
 
             return dataJSON;
         } catch (err) {
@@ -96,6 +126,34 @@ const mentorapplication = {
                 status: 'success',
                 data: results
             }
+            
+            const [templates] = await db.execute('SELECT * FROM emailtemplate');
+
+            let selectedTemplate = templates.find(f => f.name == "Mentor Approve");
+
+            let sendingContent = selectedTemplate.content;
+      
+            const emailData = {
+              to: applicationData[0].email,
+              subject: selectedTemplate.subject,
+              html: sendingContent
+            };
+      
+            await sendEmail(emailData);
+      
+            let maillogReq = {
+              recipient : emailData.to,
+              message : emailData.html,
+              subject : emailData.subject
+            }
+      
+            emaillog.create(maillogReq, (err, result) => {
+              if (err) {
+                console.error(err);
+                return res.status(500).json({ message: 'Email sent but failed to log' });
+              }
+              res.status(200).json({ message: 'Email sent & logged successfully!' });
+            });
     
             return dataJSON;
         } catch (err) {
@@ -107,11 +165,42 @@ const mentorapplication = {
         try {
             const [results] = await db.execute(sqlUpdate, [data.isRejected, id]);
             
+            const applicationDatasql = 'SELECT * FROM mentorapplication WHERE id = ?';
+            const [applicationData] = await db.execute(applicationDatasql, [id]);
 
             let dataJSON = {
                 status: 'success',
                 data: results
             }
+
+            const [templates] = await db.execute('SELECT * FROM emailtemplate');
+
+            let selectedTemplate = templates.find(f => f.name == "Mentor Reject");
+
+            let sendingContent = selectedTemplate.content;
+      
+            const emailData = {
+              to: applicationData[0].email,
+              subject: selectedTemplate.subject,
+              html: sendingContent
+            };
+      
+            await sendEmail(emailData);
+      
+            let maillogReq = {
+              recipient : emailData.to,
+              message : emailData.html,
+              subject : emailData.subject
+            }
+      
+            emaillog.create(maillogReq, (err, result) => {
+              if (err) {
+                console.error(err);
+                return res.status(500).json({ message: 'Email sent but failed to log' });
+              }
+              res.status(200).json({ message: 'Email sent & logged successfully!' });
+            });
+    
     
             return dataJSON;
         } catch (err) {
